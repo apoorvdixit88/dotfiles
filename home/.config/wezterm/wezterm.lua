@@ -4,6 +4,11 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
+-- This file is loaded via `dofile` from the ~/.wezterm.lua shim, and WezTerm's
+-- auto-reload only watches the shim — not dofile'd targets. Add this file to the
+-- watch list so edits here hot-reload without restarting WezTerm.
+wezterm.add_to_config_reload_watch_list(os.getenv("HOME") .. "/.config/wezterm/wezterm.lua")
+
 -- ── Font ─────────────────────────────────────────────────────────────────────
 -- Toggle the font by swapping which line is first (top one wins):
 config.font = wezterm.font_with_fallback({
