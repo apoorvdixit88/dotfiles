@@ -5,15 +5,26 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
 -- ── Font ─────────────────────────────────────────────────────────────────────
+-- Toggle the font by swapping which line is first (top one wins):
 config.font = wezterm.font_with_fallback({
-  "MesloLGS Nerd Font Mono",
+  "MesloLGS Nerd Font Mono",       -- <- currently active
+  -- "JetBrainsMono Nerd Font Mono", -- <- uncomment this (and comment the line above) to switch back
   "Symbols Nerd Font Mono",
 })
-config.font_size = 19.0
+config.font_size = 16.0
+-- JetBrains Mono ligatures (=> != >= === etc.) are on by default.
+-- To turn them OFF, uncomment the next line:
+-- config.harfbuzz_features = { "calt=0", "clig=0", "liga=0" }
 
 -- ── Appearance ───────────────────────────────────────────────────────────────
 -- Try others: "Tokyo Night", "Gruvbox Dark", "Dracula", "Nord"
 config.color_scheme = "Catppuccin Mocha"
+-- To use Catppuccin's true Mocha base (#1e1e2e), we let the color_scheme drive
+-- the background. Uncomment below to override it to a near-black canvas instead
+-- (#11111b is Catppuccin's darkest shade, "crust") — keeps all the Mocha accents.
+-- config.colors = {
+--   background = "#11111b",
+-- }
 config.window_decorations = "TITLE | RESIZE"
 config.window_background_opacity = 0.95        -- subtle transparency
 config.macos_window_background_blur = 20       -- frosted-glass blur (macOS only)
