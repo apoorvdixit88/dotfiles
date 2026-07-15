@@ -19,6 +19,13 @@ config.window_background_opacity = 0.95        -- subtle transparency
 config.macos_window_background_blur = 20       -- frosted-glass blur (macOS only)
 config.window_padding = { left = 8, right = 8, top = 8, bottom = 8 }
 
+-- ── Pane focus: dim inactive panes so the active one stands out ───────────────
+-- NOTE: only affects WezTerm-native splits (Cmd+d / Cmd+Shift+d), not tmux splits.
+config.inactive_pane_hsb = {
+  saturation = 0.8,
+  brightness = 0.7,
+}
+
 -- ── Tab bar ──────────────────────────────────────────────────────────────────
 -- Keeps your clean single-window look, but shows tabs only when you have >1.
 config.enable_tab_bar = true
@@ -38,8 +45,17 @@ config.send_composed_key_when_right_alt_is_pressed = true
 
 -- ── Keybindings (macOS CMD-based; complements tmux, doesn't replace it) ───────
 config.keys = {
-  -- Clear the screen AND scrollback (like Terminal.app / iTerm)
-  { key = "k", mods = "CMD", action = wezterm.action.ClearScrollback("ScrollbackAndViewport") },
+  -- Cmd+K = run the real `clear` command, so it wipes the screen AND scrollback
+  -- exactly like typing `clear` — and works inside tmux (clears tmux's history too).
+  -- Ctrl-U first discards anything half-typed at the prompt.
+  {
+    key = "k",
+    mods = "CMD",
+    action = wezterm.action.Multiple({
+      wezterm.action.SendKey({ key = "u", mods = "CTRL" }),
+      wezterm.action.SendString("clear\r"),
+    }),
+  },
   -- Splits
   { key = "d", mods = "CMD",       action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
   { key = "d", mods = "CMD|SHIFT", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
