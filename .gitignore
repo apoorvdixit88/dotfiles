@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Editor / swap junk
+*.swp
+*.swo
+*~
+
+# Local-only overrides (keep secrets/machine-specific stuff out of git)
+*.local
+.env
+
+# Stray tool/log dirs
+.a5c/
